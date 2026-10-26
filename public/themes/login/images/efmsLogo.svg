@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 93 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g id="Artboard1" transform="matrix(0.513889,0,0,0.563882,0,0)">
+        <rect x="0" y="0" width="180" height="55" style="fill:none;"/>
+        <g transform="matrix(0.470357,0,0,0.428655,-79.1551,-68.9483)">
+            <path d="M176.167,263.167L203.595,263.167L203.595,234.214L191.024,234.214L222.452,202.786L252.738,233.071L252.738,286.735L252.738,264.69C249.339,265.176 183.453,238.201 256.624,172.089C256.763,172.368 327.694,230.89 258.31,263.6" style="fill:none;stroke:rgb(56,211,159);stroke-width:4.14px;"/>
+        </g>
+        <g transform="matrix(0.470357,0,0,0.428655,-79.1551,-68.9483)">
+            <path d="M252.738,233.071L252.738,188.186" style="fill:none;stroke:rgb(56,211,159);stroke-width:4.14px;"/>
+        </g>
+        <g transform="matrix(0.470357,0,0,0.428655,-79.1551,-68.9483)">
+            <path d="M252.738,222.395L280.167,199.843" style="fill:none;stroke:rgb(56,211,159);stroke-width:4.14px;"/>
+        </g>
+        <g transform="matrix(0.470357,0,0,0.428655,-79.1551,-68.9483)">
+            <path d="M253.348,248.605L288.09,219.957" style="fill:none;stroke:rgb(56,211,159);stroke-width:4.14px;"/>
+        </g>
+        <g transform="matrix(0.470357,0,0,0.428655,-79.1551,-68.9483)">
+            <path d="M239.938,192.833L253.043,205.024" style="fill:none;stroke:rgb(56,211,159);stroke-width:4.14px;"/>
+        </g>
+        <g transform="matrix(0.470357,0,0,0.428655,-79.1551,-68.5197)">
+            <path d="M298.757,263.843L253.348,263.843" style="fill:none;stroke:rgb(56,211,159);stroke-width:4.14px;"/>
+        </g>
+        <g transform="matrix(1.05925,0,0,0.965338,-2.60554,1.43352)">
+            <path d="M60.394,44.694C60.394,44.694 69.148,25.247 77.886,27.239" style="fill:none;stroke:url(#_Radial1);stroke-width:1.84px;"/>
+        </g>
+        <g transform="matrix(0.470357,0,0,0.428655,-48.3142,-40.7421)">
+            <text x="246.403px" y="196.584px" style="font-family:'PoorRichard-Regular', 'Poor Richard', serif;font-size:112.601px;">eFMS</text>
+        </g>
+    </g>
+    <defs>
+        <radialGradient id="_Radial1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(8.74586,0,0,8.79885,69.1403,35.8947)"><stop offset="0" style="stop-color:black;stop-opacity:1"/><stop offset="0.46" style="stop-color:rgb(16,60,45);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(56,211,159);stop-opacity:1"/></radialGradient>
+    </defs>
+</svg>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+ <!--<link type="text/css" rel="stylesheet"  href="{{URL::asset('public/assets/login/fonts/icomoon/style.css')}}" />-->
+    <link rel="stylesheet" href="{{ asset('/public/themes/login/css/owl.carousel.min.css')}}" />
+    <link rel="stylesheet" href="{{ asset('/public/themes/login/css/bootstrap.min.css')}}" />
+    <link rel="stylesheet" href="{{ asset('/public/themes/login/css/style.css')}}" />
+
+ <style>
+     .error{
+         color:red;
+     }
+ </style>
+    <title>eLMS - Login</title>
+  </head>
+  <body style="background:#fff">
+
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 order-md-2">
+          <img src="{{ asset('/public/themes/login/images/undraw_file_sync_ot381.svg')}}" alt="Image" class="img-fluid">
+        </div>
+        <div class="col-md-6 contents">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="mb-4">
+                <img src="{{ asset('/public/themes/login/images/efmsLogo.png')}}" alt="Image" class="img-fluid mb-4" style="width:250px">
+              <h3>Sign In</h3>
+              <p class="mb-4" style="font-size:11px">Lead | Quote | Approval | Purchase Order | GRN Inventory | Material  |  Management | Manpower Schedule | Site Work |Attendance | Payroll</p>
+            </div>
+                   @include('layout/alert')
+            <form action="login" method = "post" class="form-signin" id="LoginForm" autocomplete="off">
+                @csrf
+                <input type = "hidden" name = "_token" value = "<?php echo csrf_token() ?>">
+              <div class="form-group first" style="margin-bottom: 0rem !important;">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="">
+              </div>
+                <label for="username" generated="true" class="error">Please enter username</label>
+
+                <div class="form-group last mb-4" style="margin-bottom: 0rem !important;">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="">
+              </div>
+                <label for="password" generated="true" class="error">Please enter Password</label>
+                                
+
+              
+              <div class="d-flex mb-5 align-items-center">
+                <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
+                  <input type="checkbox" checked="checked"/>
+                  <div class="control__indicator"></div>
+                </label>
+                <!--<span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span>--> 
+              </div>
+
+              <input type="submit" value="Log In" class="btn text-white btn-block btn-primary" style="backgorund-color:" name="MakeLogin">
+
+            
+              
+            </form>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+   
+   <script src="{{ asset('/public/themes/login/js/jquery-3.3.1.min.js') }}"></script>
+   <script src="{{ asset('/public/themes/login/js/popper.min.js') }}"></script>
+   <script src="{{ asset('/public/themes/login/js/bootstrap.min.js') }}"></script>
+   <script src="{{ asset('/public/themes/login/js/main.js') }}"></script>
+    <script>
+    $(".error").hide();
+    </script>
+  </body>
+</html>
