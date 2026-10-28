@@ -42,17 +42,34 @@ class HomeController extends Controller
 
     $today = Carbon::today();
     $request->merge([
-        'from_date' => $request->input('from_date', $today->copy()->startOfMonth()->toDateString()),
-        'to_date' => $request->input('to_date', $today->toDateString()),
+        'from_date' => $request->input('from_date', $today->copy()->startOfYear()->toDateString()),
+        'to_date' => $request->input('to_date', $today->copy()->endOfMonth()->toDateString()),
+        'group_by' => $request->input('group_by', 'month'),
     ]);
     $filters = $request->validate([
         'from_date' => 'required|date_format:Y-m-d|before_or_equal:to_date',
         'to_date' => 'required|date_format:Y-m-d|after_or_equal:from_date',
         'console_id' => 'nullable|integer',
+        'group_by' => 'required|in:day,month,year',
     ]);
 
     $startDate = Carbon::createFromFormat('Y-m-d', $filters['from_date']);
     $endDate = Carbon::createFromFormat('Y-m-d', $filters['to_date']);
+    $groupBy = $filters['group_by'];
+    $intervalRanges = [
+        'day' => [
+            'from' => $today->copy()->startOfMonth()->toDateString(),
+            'to' => $today->copy()->endOfMonth()->toDateString(),
+        ],
+        'month' => [
+            'from' => $today->copy()->startOfYear()->toDateString(),
+            'to' => $today->copy()->endOfMonth()->toDateString(),
+        ],
+        'year' => [
+            'from' => $today->copy()->startOfYear()->subYear()->toDateString(),
+            'to' => $today->copy()->endOfYear()->toDateString(),
+        ],
+    ];
     $consoleList = ConsoleMaster::where('place_id', $placeId)
         ->where('status', 1)
         ->orderBy('console_name')
@@ -81,19 +98,52 @@ class HomeController extends Controller
         ->get()
         ->keyBy('submission_date');
 
+    $groupedCosts = [];
+    foreach ($dailyCosts as $dateKey => $dailyTotals) {
+        $date = Carbon::createFromFormat('Y-m-d', $dateKey);
+        $groupKey = $groupBy === 'year' ? $date->format('Y') : ($groupBy === 'month' ? $date->format('Y-m') : $dateKey);
+
+        if (!isset($groupedCosts[$groupKey])) {
+            $groupedCosts[$groupKey] = ['player' => 0, 'food_and_beverage' => 0];
+        }
+
+        $groupedCosts[$groupKey]['player'] += (float) $dailyTotals->daily_cost;
+        $groupedCosts[$groupKey]['food_and_beverage'] += (float) $dailyTotals->daily_fandb_cost;
+    }
+
+    $chartStartDate = $startDate->copy();
+    $chartEndDate = $endDate->copy();
+    if ($groupBy === 'month') {
+        $chartStartDate->startOfMonth();
+        $chartEndDate->startOfMonth();
+    } elseif ($groupBy === 'year') {
+        $chartStartDate->startOfYear();
+        $chartEndDate->startOfYear();
+    }
+
     $labels = [];
     $costs = [];
     $foodAndBeverageCosts = [];
     $periodTotal = 0;
     $foodAndBeveragePeriodTotal = 0;
 
-    for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
-        $dateKey = $date->toDateString();
-        $dailyTotals = $dailyCosts->get($dateKey);
-        $dailyCost = (float) ($dailyTotals->daily_cost ?? 0);
-        $dailyFoodAndBeverageCost = (float) ($dailyTotals->daily_fandb_cost ?? 0);
+    for ($date = $chartStartDate->copy(); $date->lte($chartEndDate);) {
+        if ($groupBy === 'year') {
+            $groupKey = $date->format('Y');
+            $labels[] = $date->format('Y');
+            $date->addYear();
+        } elseif ($groupBy === 'month') {
+            $groupKey = $date->format('Y-m');
+            $labels[] = $date->format('M Y');
+            $date->addMonth();
+        } else {
+            $groupKey = $date->toDateString();
+            $labels[] = $date->format('d M Y');
+            $date->addDay();
+        }
 
-        $labels[] = $date->format('d M');
+        $dailyCost = (float) ($groupedCosts[$groupKey]['player'] ?? 0);
+        $dailyFoodAndBeverageCost = (float) ($groupedCosts[$groupKey]['food_and_beverage'] ?? 0);
         $costs[] = $dailyCost;
         $foodAndBeverageCosts[] = $dailyFoodAndBeverageCost;
         $periodTotal += $dailyCost;
@@ -110,6 +160,8 @@ class HomeController extends Controller
         'endDate' => $endDate,
         'consoleList' => $consoleList,
         'selectedConsoleId' => $consoleId,
+        'groupBy' => $groupBy,
+        'intervalRanges' => $intervalRanges,
     ]);
 }
 

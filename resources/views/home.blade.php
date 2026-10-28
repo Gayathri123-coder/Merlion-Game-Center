@@ -14,7 +14,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Daily Player Cost</h3>
+                        <h3 class="card-title">Player and Food and Beverages Cost</h3>
                         <div class="card-tools text-muted">{{ $startDate->format('d M Y') }} - {{ $endDate->format('d M Y') }}</div>
                     </div>
                     <div class="card-body">
@@ -49,8 +49,28 @@
                                 </select>
                             </div>
                             <div class="col-md-3 mb-2">
-                                <button type="submit" class="btn btn-primary">Apply filters</button>
+                                <button type="submit" name="group_by" value="{{ $groupBy }}" class="btn btn-primary">Apply filters</button>
                                 <a href="{{ route('home') }}" class="btn btn-secondary">Reset</a>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label class="d-block">Chart interval</label>
+                                <div class="btn-group" role="group" aria-label="Chart interval">
+                                    <button type="submit" name="group_by" value="day"
+                                            class="btn {{ $groupBy === 'day' ? 'btn-primary' : 'btn-outline-primary' }}"
+                                            data-from="{{ $intervalRanges['day']['from'] }}"
+                                            data-to="{{ $intervalRanges['day']['to'] }}"
+                                            aria-pressed="{{ $groupBy === 'day' ? 'true' : 'false' }}">Day</button>
+                                    <button type="submit" name="group_by" value="month"
+                                            class="btn {{ $groupBy === 'month' ? 'btn-primary' : 'btn-outline-primary' }}"
+                                            data-from="{{ $intervalRanges['month']['from'] }}"
+                                            data-to="{{ $intervalRanges['month']['to'] }}"
+                                            aria-pressed="{{ $groupBy === 'month' ? 'true' : 'false' }}">Month</button>
+                                    <button type="submit" name="group_by" value="year"
+                                            class="btn {{ $groupBy === 'year' ? 'btn-primary' : 'btn-outline-primary' }}"
+                                            data-from="{{ $intervalRanges['year']['from'] }}"
+                                            data-to="{{ $intervalRanges['year']['to'] }}"
+                                            aria-pressed="{{ $groupBy === 'year' ? 'true' : 'false' }}">Year</button>
+                                </div>
                             </div>
                         </form>
                         <div class="row mb-3">
@@ -64,7 +84,7 @@
                             </div>
                         </div>
                         <div style="height: 350px;">
-                            <canvas id="daily-player-cost-chart" role="img" aria-label="Daily total player cost for the selected date range"></canvas>
+                            <canvas id="daily-player-cost-chart" role="img" aria-label="Player and food and beverages costs by selected interval"></canvas>
                         </div>
                     </div>
                 </div>
@@ -77,6 +97,11 @@
 @section('script')
 <script>
     $(function () {
+        $('.btn-group[aria-label="Chart interval"] button').on('click', function () {
+            $('#from_date').val($(this).data('from'));
+            $('#to_date').val($(this).data('to'));
+        });
+
         var chartElement = document.getElementById('daily-player-cost-chart');
         if (!chartElement) {
             return;
